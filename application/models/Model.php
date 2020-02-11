@@ -3,6 +3,22 @@ defined('BASEPATH') OR exit ('No direct script access allowed');
 
 
 class Model extends CI_Model {
+
+    function validate_credentials($email, $password){
+        $this->db->select('*');
+        $this->db->from('access');
+        $this->db->where('email',$email);
+        $this->db->where('password', sha1($password));
+
+        $query = $this->db->get();
+        if ($query && $query->num_rows() == 1){
+
+            return $query->result();
+
+        }else {
+            return null;
+        }
+    }
 //New CRUD-Model => Tables => Objects
 
     //**CRUD MODEL**//
@@ -10,11 +26,7 @@ class Model extends CI_Model {
 function c_object($table, $data){
     $this->db->insert($table, $data);
 
-
-
-
-
-}
+    }
 
 //Read Function
 function ra_object($table){

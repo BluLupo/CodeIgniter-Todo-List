@@ -3,6 +3,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class App extends CI_Controller{
 
+    function __construct(){
+        parent::__construct();
+
+        $loggedIn = $this->session->userdata('logged-in');
+
+        if (!isset($loggedIn) || $loggedIn != true){
+            // Non logged in
+            show_404();
+
+        }
+    }
+
     function index(){
         $this->load->helper('url');
         $data['todos'] = $this->model->ra_object('todo');
