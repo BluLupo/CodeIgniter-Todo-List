@@ -5,7 +5,7 @@ class App extends CI_Controller{
 
     function index(){
         $this->load->helper('url');
-        $data['todos'] = $this->model->read_todos();
+        $data['todos'] = $this->model->ra_object('todo');
         $this->load->view('list', $data);
 
 
@@ -13,7 +13,7 @@ class App extends CI_Controller{
 
     function todo(){
         $id = $this->uri->segment(3);
-        $data['todo'] = $this->model->read_todo($id);
+        $data['todo'] = $this->model->r_object('todo',$id);
         $this->load->view('single_todo', $data);
     }
 
@@ -35,7 +35,7 @@ class App extends CI_Controller{
 
         );
 
-        $this->model->create_todo($data);
+        $this->model->c_object('todo',$data);
         redirect('app');
     }
 
@@ -49,7 +49,7 @@ class App extends CI_Controller{
             'completed' => 1
 
         );
-        $this->model->update_todo($id, $data);
+        $this->model->u_object('todo',$id, $data);
         redirect('app');
     }
 
@@ -59,13 +59,13 @@ class App extends CI_Controller{
             'completed' => 0
 
         );
-        $this->model->update_todo($id, $data);
+        $this->model->u_object('todo',$id, $data);
         redirect('app');
 
     }
     function destroy_todo(){
         $id = $this->uri->segment(3);
-        $this->model->delete_todo($id);
+        $this->model->d_object('todo',$id);
         redirect('app');
 
 
@@ -78,7 +78,7 @@ class App extends CI_Controller{
             'text' => $this->input->post('todo')
 
         );
-        $this->model->update_todo($id, $data);
+        $this->model->u_object('todo',$id, $data);
         redirect('app');
 
 

@@ -3,11 +3,12 @@ defined('BASEPATH') OR exit ('No direct script access allowed');
 
 
 class Model extends CI_Model {
+//New CRUD-Model => Tables => Objects
 
     //**CRUD MODEL**//
     //Create Function
-function create_todo($data){
-    $this->db->insert('todo', $data);
+function c_object($table, $data){
+    $this->db->insert($table, $data);
 
 
 
@@ -16,9 +17,9 @@ function create_todo($data){
 }
 
 //Read Function
-function read_todos(){
+function ra_object($table){
     $this->db->select('*');
-    $this->db->from('todo');
+    $this->db->from($table);
  $query = $this->db->get();
 
  if ($query->num_rows() > 0){
@@ -32,9 +33,9 @@ function read_todos(){
 
     }
 
-    function read_todo($id){
+    function r_object($table,$id){
         $this->db->select('*');
-        $this->db->from('todo');
+        $this->db->from($table);
         $this->db->where('id',$id);
 
         $query = $this->db->get()-> result();
@@ -48,15 +49,15 @@ function read_todos(){
         }
     }
     //Function Update
-    function update_todo($id, $data){
+    function u_object($table,$id, $data){
         $this->db->where('id', $id);
-        $this->db->update('todo', $data);
+        $this->db->update($table, $data);
     }
 
     //Function Delete
-    function delete_todo($id){
+    function d_object($table,$id){
      $this->db->where('id', $id);
-     $this->db->delete('todo');
+     $this->db->delete($table);
 
 
     }
