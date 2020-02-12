@@ -11,8 +11,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
           rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
           crossorigin="anonymous">
-
-    <link rel="stylesheet" type="text/css" href="https://antares.hersel.it/todo.css">
+    <!--Jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://localhost/style.css">
 
 </head>
 <body>
@@ -30,7 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
     <!--List-->
     <div>
-    <ul>
+    <ul id="todos-container">
         <?php
             foreach ($todos as $todo)
             {
@@ -45,10 +46,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 >
                     <!--Check-->
                     <div>
-                        <a href="<?php if ($todo->completed)
+                        <a href="<?php
+                        if ($todo->completed)
                         {echo site_url("app/uncheck/$todo->id");}
                         else
-                            echo site_url("app/check/$todo->id"); ?>"></a>
+                            echo site_url("app/check/$todo->id");
+                        ?>">
+
+                        </a>
                         <?php if($todo->completed) { ?>
                             <i class="fa fa-check"></i>
                         <?php }?>
@@ -66,7 +71,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <i class="fa fa-pencil"></i>
                         </a>
                         <!-- Delete -->
-                        <a href="<?= site_url("app/destroy_todo/$todo->id"); ?>">
+                        <a href="<?=
+                        site_url("app/destroy_todo/$todo->id");
+                        ?>"
+                           class="delete-todo">
                             <i class="fa fa-times"></i>
                         </a>
                     </div>
@@ -82,6 +90,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 </section>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.delete-todo').click(function(e) {
 
+            e.preventDefault();
+
+            $.ajax({
+                'url': $(this).attr('href'),
+                'type': 'POST',
+                'data': {},
+                'success': function (data) {
+                    if  (data) {
+                        console.log(data);
+
+                        $('#todos-container').html(data);
+                    }
+
+                }
+            });
+        });
+
+    });
+
+</script>
 </body>
 </html>

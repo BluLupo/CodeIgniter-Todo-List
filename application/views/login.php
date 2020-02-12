@@ -12,26 +12,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
           crossorigin="anonymous">
 
-    <link rel="stylesheet" type="text/css" href="https://antares.hersel.it/login.css">
+    <link rel="stylesheet" type="text/css" href="http://localhost/login.css">
 
 </head>
 <body>
 <section>
-    <!--Form-->
+    <!-- Form -->
     <div>
-
-        <form method="post" action="<?= site_url('welcome/login'); ?>">
+        <form method="post" action="<?php echo site_url('welcome/login'); ?>">
             <label for="email">Email *</label>
             <input type="email" name="email">
 
             <label for="password">Password *</label>
             <input type="password" name="password">
             <button type="submit">Login</button>
-
         </form>
-        <?php if(function_exists('validation_errors'))  {echo validation_errors();} ?>
 
-
+        <?php if (function_exists('validation_errors')) { echo validation_errors(); } ?>
     </div>
 </section>
 

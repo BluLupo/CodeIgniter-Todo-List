@@ -17,7 +17,7 @@ class App extends CI_Controller{
 
     function index(){
         $this->load->helper('url');
-        $data['todos'] = $this->model->ra_object('todo');
+        $data['todos'] = $this->model->ra_object('todo', $this->session->userdata('id'));
         $this->load->view('list', $data);
 
 
@@ -25,60 +25,70 @@ class App extends CI_Controller{
 
     function todo(){
         $id = $this->uri->segment(3);
-        $data['todo'] = $this->model->r_object('todo',$id);
-        $this->load->view('single_todo', $data);
-    }
+        $data['todo'] = $this->model->r_object('todo',$id, $this->session->userdata('id'));
+        if ($data['todo']){
+            $this->load->view('single_todo', $data);
 
-    function new_todo(){
+        }else{
+            show_404();
 
-    $this->load->library('form_validation');
-
-    // Form Validator
-    $this->form_validation->set_rules('todo', 'Todo Text','trim|required');
-
-    if ($this->form_validation->run() == FALSE){
-        //Failed
-        $this->index();
-
-    }else{
-        $data = array(
-          'text' => $this->input->post('todo'),
-          'createdAt' => date('Y-m-d H:i:s')
-
-        );
-
-        $this->model->c_object('todo',$data);
-        redirect('app');
-    }
-
+        }
 
     }
 
-    function check(){
+    function new_todo() {
+
+        $this->load->library('form_validation');
+
+        $this->form_validation->set_rules('todo', 'Todo Text', 'trim|required');
+
+        if ($this->form_validation->run() == FALSE) {
+            // Failed
+            $this->index();
+        } else {
+            // OK
+            $data = array(
+                'idAccess' => $this->session->userdata('id'),
+                'text' => $this->input->post('todo'),
+                'createdAt' => date('Y-m-d H:i:s')
+            );
+
+            $this->model->c_object('todo', $data);
+
+            redirect('app');
+        }
+    }
+
+    function check() {
         $id = $this->uri->segment(3);
 
         $data = array(
             'completed' => 1
-
         );
-        $this->model->u_object('todo',$id, $data);
+
+        $this->model->u_object('todo', $id, $data, $this->session->userdata('id'));
+
         redirect('app');
     }
 
-    function uncheck(){
+    function uncheck() {
         $id = $this->uri->segment(3);
+
         $data = array(
             'completed' => 0
-
         );
-        $this->model->u_object('todo',$id, $data);
-        redirect('app');
 
+        $this->model->u_object('todo', $id, $data, $this->session->userdata('id'));
+
+        redirect('app');
     }
     function destroy_todo(){
         $id = $this->uri->segment(3);
-        $this->model->d_object('todo',$id);
-        redirect('app');
+
+        $this->model->d_object('todo',$id, $this->session->userdata('id'));
+
+        $data['todos'] = $this->model->ra_object('todo', $this->session->userdata('id'));
+        $this->load->view('ajax/list', $data);
 
 
 
@@ -90,7 +100,7 @@ class App extends CI_Controller{
             'text' => $this->input->post('todo')
 
         );
-        $this->model->u_object('todo',$id, $data);
+        $this->model->u_object('todo',$id, $data, $this->session->userdata('id'));
         redirect('app');
 
 

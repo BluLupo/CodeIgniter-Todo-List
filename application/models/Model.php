@@ -16,7 +16,7 @@ class Model extends CI_Model {
             return $query->result();
 
         }else {
-            return null;
+            return false;
         }
     }
 //New CRUD-Model => Tables => Objects
@@ -24,14 +24,19 @@ class Model extends CI_Model {
     //**CRUD MODEL**//
     //Create Function
 function c_object($table, $data){
+        var_dump($data);
     $this->db->insert($table, $data);
+
 
     }
 
 //Read Function
-function ra_object($table){
+function ra_object($table, $access){
     $this->db->select('*');
     $this->db->from($table);
+    if ($access){
+        $this->db->where('idAccess',$access);
+    }
  $query = $this->db->get();
 
  if ($query->num_rows() > 0){
@@ -45,10 +50,13 @@ function ra_object($table){
 
     }
 
-    function r_object($table,$id){
+    function r_object($table,$id, $access){
         $this->db->select('*');
         $this->db->from($table);
         $this->db->where('id',$id);
+        if ($access){
+            $this->db->where('idAccess',$access);
+        }
 
         $query = $this->db->get()-> result();
         if ($query){
@@ -61,15 +69,23 @@ function ra_object($table){
         }
     }
     //Function Update
-    function u_object($table,$id, $data){
+    function u_object($table,$id, $data, $access){
         $this->db->where('id', $id);
+        if ($access){
+            $this->db->where('idAccess',$access);
+        }
         $this->db->update($table, $data);
+
     }
 
     //Function Delete
-    function d_object($table,$id){
+    function d_object($table,$id, $access){
      $this->db->where('id', $id);
+     if ($access){
+         $this->db->where('idAccess',$access);
+     }
      $this->db->delete($table);
+
 
 
     }
