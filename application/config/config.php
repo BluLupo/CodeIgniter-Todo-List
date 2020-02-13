@@ -25,6 +25,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $config['base_url'] = 'http://localhost/project/';
 
+$config['resources'] = array(
+    'img' => $config['base_url'] . 'resources/img',
+    'css' => $config['base_url'] . 'resources/css',
+    'js' => $config['base_url'] . 'resources/js'
+
+);
+
 /*
 |--------------------------------------------------------------------------
 | Index File

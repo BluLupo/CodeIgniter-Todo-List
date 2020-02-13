@@ -13,7 +13,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           crossorigin="anonymous">
     <!--Jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="http://localhost/style.css">
+    <link rel="stylesheet" type="text/css" href="
+    <?=
+    $this->config->item('resources/css')['css']
+    ?>
+/style.css">
+
 
 </head>
 <body>
@@ -26,7 +31,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <button type="submit">Save</button>
 
 </form>
-<?php if(function_exists('validation_errors'))  {echo validation_errors();} ?>
+<?php
+if(function_exists('validation_errors'))
+{
+    echo validation_errors();
+}
+?>
 
 </div>
     <!--List-->
@@ -92,7 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </section>
 <script type="text/javascript">
     $(document).ready(function () {
-        $('.delete-todo').click(function(e) {
+        $(document).on('click','.delete-todo',function(e) {
 
             e.preventDefault();
 

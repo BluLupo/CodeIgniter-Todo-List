@@ -16,7 +16,9 @@ class App extends CI_Controller{
     }
 
     function index(){
+        // Read helpers
         $this->load->helper('url');
+        // Get To-do-list (foreach) and Loading user id from session
         $data['todos'] = $this->model->ra_object('todo', $this->session->userdata('id'));
         $this->load->view('list', $data);
 
